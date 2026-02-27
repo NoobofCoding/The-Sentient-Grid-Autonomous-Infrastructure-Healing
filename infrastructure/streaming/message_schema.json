@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "timestamp": { "type": "number" },
+    "buses": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "List of bus objects (id/name/voltage)"
+    },
+    "generators": {
+      "type": "array",
+      "items": { "type": "object" },
+      "description": "List of generator objects"
+    },
+    "loads": {
+      "type": "array",
+      "items": { "type": "number" },
+      "description": "Load at each bus in MW"
+    },
+    "frequency": { "type": "number" },
+    "fault_status": {
+      "type": "object",
+      "properties": {
+        "is_faulted": { "type": "boolean" },
+        "info": { "type": "object" }
+      }
+    }
+  },
+  "required": [
+    "timestamp",
+    "buses",
+    "generators",
+    "loads",
+    "frequency",
+    "fault_status"
+  ]
+}

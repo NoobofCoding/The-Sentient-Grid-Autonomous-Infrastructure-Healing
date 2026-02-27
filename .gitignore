@@ -1,0 +1,92 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Python Build and Distribution
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Testing
+.pytest_cache/
+**/__pycache__/
+.coverage
+htmlcov/
+.tox/
+.coverage.*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.sublime-*
+*.pyc
+.DS_Store
+
+# Logs
+*.log
+logs/
+sentient_grid_stream_test.log
+sentient_grid_backend.log
+*.log.*
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Kafka and Data
+data/
+kafka-logs/
+
+# Editor Backups
+*~
+.#*
+.backup
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker-compose.override.yml
+docker-compose.override.yml
+
+# Environment-specific
+.env.prod
+.env.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+.editorconfig
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

@@ -1,0 +1,43 @@
+# Core Dependencies
+kafka-python==2.0.2
+    # Kafka client library for producing/consuming messages
+
+# Testing Framework
+pytest==7.4.3
+    # Testing framework
+pytest-cov==4.1.0
+    # Code coverage plugin for pytest
+pytest-mock==3.12.0
+    # Mocking and patching for pytest
+
+# Logging and Monitoring
+python-json-logger==2.0.7
+    # Structured JSON logging
+
+# Utilities
+numpy==1.24.3
+    # Numerical computing (optional, for advanced grid analysis)
+
+# Code Quality
+pylint==3.0.3
+    # Static code analysis
+black==23.12.1
+    # Code formatter
+isort==5.13.2
+    # Import sorting utility
+mypy==1.7.1
+    # Static type checker
+
+# Development Tools
+ipython==8.18.1
+    # Interactive Python shell for debugging
+jupyter==1.0.0
+    # Jupyter notebook support
+ipdb==0.13.13
+    # IPython debugger
+
+# Documentation (optional)
+sphinx==7.2.6
+    # Documentation generator
+sphinx-rtd-theme==2.0.0
+    # Read the Docs theme for Sphinx
