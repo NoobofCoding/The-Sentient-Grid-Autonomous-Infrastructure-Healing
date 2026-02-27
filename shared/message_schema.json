@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sentient-grid/shared/message_schema.json",
+  "title": "GridStateMessage",
+  "type": "object",
+  "required": ["voltages", "loads", "frequency"],
+  "properties": {
+    "timestamp": {
+      "type": "integer",
+      "description": "Tick timestamp (epoch ms or simulation tick)."
+    },
+    "voltages": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 1
+    },
+    "loads": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 1
+    },
+    "frequency": {
+      "type": "number"
+    },
+    "line_flows": {
+      "type": "array",
+      "items": { "type": "number" }
+    }
+  },
+  "additionalProperties": true
+}
