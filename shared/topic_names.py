@@ -23,6 +23,12 @@ FAULT_RECOVERY_TOPIC: str = "grid.faults.recovery"
 CONTROL_ACTIONS_TOPIC: str = "grid.control.actions"
 """Topic for publishing AI control actions to the grid."""
 
+GRID_ACTION_TOPIC: str = CONTROL_ACTIONS_TOPIC
+"""Backward-compatible alias for control actions topic."""
+
+GRID_CONTROL_TOPIC: str = CONTROL_ACTIONS_TOPIC
+"""Compatibility alias for control topic naming across pillars."""
+
 # Analytics and Logging
 ANALYTICS_TOPIC: str = "grid.analytics.metrics"
 """Topic for publishing analytics and computed metrics."""
@@ -33,6 +39,9 @@ AUDIT_LOG_TOPIC: str = "grid.audit.log"
 # Anomaly Detection
 ANOMALY_DETECTION_TOPIC: str = "grid.anomalies.detected"
 """Topic for publishing detected anomalies from intelligence module."""
+
+GRID_ANOMALY_TOPIC: str = ANOMALY_DETECTION_TOPIC
+"""Compatibility alias for anomaly topic naming across pillars."""
 
 # System Health
 SYSTEM_HEALTH_TOPIC: str = "grid.system.health"

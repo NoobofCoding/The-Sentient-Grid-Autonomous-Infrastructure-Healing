@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GridStateMessage",
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "number"
+    },
+    "voltages": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 39,
+      "maxItems": 39
+    },
+    "voltage_angles": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 39,
+      "maxItems": 39
+    },
+    "loads": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 39,
+      "maxItems": 39
+    },
+    "generator_outputs": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 10,
+      "maxItems": 10
+    },
+    "line_flows": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 46,
+      "maxItems": 46
+    },
+    "frequency": {
+      "type": "number"
+    },
+    "is_faulted": {
+      "type": "boolean"
+    },
+    "fault_info": {
+      "anyOf": [
+        { "type": "object" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "required": [
+    "timestamp",
+    "voltages",
+    "voltage_angles",
+    "loads",
+    "generator_outputs",
+    "line_flows",
+    "frequency",
+    "is_faulted",
+    "fault_info"
+  ],
+  "additionalProperties": true
+}

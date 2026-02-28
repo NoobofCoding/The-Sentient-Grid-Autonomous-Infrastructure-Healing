@@ -38,36 +38,12 @@ logger = logging.getLogger(__name__)
 
 
 class GridEnvironment:
-    """
-    Simulates the IEEE-39 bus power system with realistic dynamics.
-
-    Maintains internal state and generates realistic voltage/frequency variations.
-    Integrates fault injection and supports deterministic simulation through seeding.
-
-    Attributes:
-        timestamp (int): Current simulation step counter.
-        base_load (list): Base load at each bus in MW.
-        base_generation (list): Base generation at each generator in MW.
-        fault_injector (FaultInjector): Fault injection controller.
-        auto_fault (bool): Enable automatic random fault injection.
-        fault_interval (int): Steps between automatic faults.
-    """
-
     def __init__(
         self,
         auto_fault: bool = False,
         fault_interval: int = 20,
         random_seed: Optional[int] = None,
     ):
-        """
-        Initialize the grid environment.
-
-        Args:
-            auto_fault (bool): Enable automatic random fault injection.
-            fault_interval (int): Simulation steps between automatic faults.
-            random_seed (Optional[int]): Random seed for deterministic simulation.
-                                       If None, uses system entropy.
-        """
         self.timestamp: int = 0
         self.base_load = [BASE_LOAD_MW for _ in range(N_BUSES)]
         self.base_generation = [BASE_GENERATION_MW for _ in range(N_GENERATORS)]
@@ -94,12 +70,6 @@ class GridEnvironment:
             logger.info("GridEnvironment initialized with non-deterministic seed")
 
     def set_seed(self, seed: int) -> None:
-        """
-        Set random seed for deterministic simulation.
-
-        Args:
-            seed (int): Random seed value.
-        """
         # Seed both the internal RNG and the global RNG to ensure deterministic
         # behavior across modules that use either `random.Random` instances or
         # the module-level `random` functions (e.g., FaultInjector).
@@ -108,15 +78,6 @@ class GridEnvironment:
         logger.info(f"Random seed set to {seed}")
 
     def _simulate_loads(self) -> list:
-        """
-        Simulate load variation at each bus.
-
-        Returns load values with realistic variation from base load.
-        Uses percentage-based variation model.
-
-        Returns:
-            list: Load at each bus in MW (39 values).
-        """
         loads = []
         for base in self.base_load:
             variation = base * MAX_LOAD_VARIATION_PERCENT
@@ -126,18 +87,6 @@ class GridEnvironment:
         return loads
 
     def _simulate_voltages(self, loads: list) -> list:
-        """
-        Simulate bus voltages based on loads.
-
-        Voltage drops proportionally with load (resistance effect).
-        Adds random noise for realistic variations.
-
-        Args:
-            loads (list): Current loads at each bus.
-
-        Returns:
-            list: Voltage at each bus in p.u. (39 values).
-        """
         voltages = []
         for load in loads:
             # Proportional voltage drop with load
@@ -157,31 +106,12 @@ class GridEnvironment:
         return voltages
 
     def _simulate_voltage_angles(self) -> list:
-        """
-        Simulate voltage phase angles at each bus.
-
-        Provides realistic phase angle distribution across the network.
-
-        Returns:
-            list: Voltage angle at each bus in degrees (39 values).
-        """
         return [
             self._rng.uniform(-MAX_VOLTAGE_ANGLE_DEGREES, MAX_VOLTAGE_ANGLE_DEGREES)
             for _ in range(N_BUSES)
         ]
 
     def _simulate_line_flows(self, loads: list) -> list:
-        """
-        Simulate power flows on each transmission line.
-
-        Distributes load across lines with realistic variation.
-
-        Args:
-            loads (list): Current loads at each bus.
-
-        Returns:
-            list: Power flow on each line in MW (46 values).
-        """
         total_load = sum(loads)
         avg_flow = total_load * AVERAGE_LINE_FLOW_MULTIPLIER / N_LINES
 
@@ -193,18 +123,6 @@ class GridEnvironment:
         return flows
 
     def _simulate_frequency(self, loads: list) -> float:
-        """
-        Simulate system frequency with realistic dynamics.
-
-        Frequency is driven by load-generation imbalance with damping.
-        Uses first-order lag to prevent unrealistic step changes.
-
-        Args:
-            loads (list): Current loads at each bus.
-
-        Returns:
-            float: System frequency in Hz.
-        """
         total_load = sum(loads)
         total_generation = sum(self.base_generation)
 
@@ -226,15 +144,6 @@ class GridEnvironment:
         return self._frequency_state
 
     def step(self) -> GridState:
-        """
-        Execute one simulation step and return updated grid state.
-
-        Generates realistic bus voltages, loads, line flows, and frequency.
-        Applies active faults and optionally triggers new faults automatically.
-
-        Returns:
-            GridState: Complete grid state at new timestamp.
-        """
         self.timestamp += 1
 
         # Simulate electrical quantities
@@ -282,15 +191,7 @@ class GridEnvironment:
         return state
 
     def step_multiple(self, count: int) -> list:
-        """
-        Execute multiple simulation steps.
-
-        Args:
-            count (int): Number of steps to execute.
-
-        Returns:
-            list: List of GridState objects, one for each step.
-        """
+        
         states = []
         for _ in range(count):
             states.append(self.step())
@@ -298,12 +199,7 @@ class GridEnvironment:
         return states
 
     def get_status(self) -> Dict[str, Any]:
-        """
-        Get current environment status.
-
-        Returns:
-            Dict[str, Any]: Status dictionary with metadata.
-        """
+        
         return {
             "timestamp": self.timestamp,
             "total_load": sum(self.base_load),
@@ -315,24 +211,19 @@ class GridEnvironment:
 
     # --- topology helpers --------------------------------------------------
     def get_bus_info(self, bus_id: int):
-        """Retrieve information about a bus from the topology."""
+        
         return self.topology.get_bus_info(bus_id)
 
     def get_generator_info(self, gen_id: int):
-        """Retrieve information about a generator from the topology."""
+        
         return self.topology.get_generator_info(gen_id)
 
     def get_load_info(self, load_id: int):
-        """Retrieve information about a load from the topology."""
+        
         return self.topology.get_load_info(load_id)
 
     def reset(self, random_seed: Optional[int] = None) -> None:
-        """
-        Reset environment to initial state.
-
-        Args:
-            random_seed (Optional[int]): Random seed for re-initialization.
-        """
+        
         self.timestamp = 0
         self._frequency_state = NOMINAL_FREQUENCY
         self._load_state = sum(self.base_load)
